@@ -14,5 +14,5 @@ Clients are collaborating to find the number as quick as possible. Communication
  * **Start the Docker containers** for *Zookeeper* and *Kafka*  by going in the folder `./docker` and starting `docker compose up -d` 
    * For redundancy two containers are started for each service (2x Zookeeper + 2x Kafka) 
    * Background information regarding Docker and Kafka can be found here: [kafka-docker-setup](https://www.baeldung.com/ops/kafka-docker-setup)
-   * Test access to the Kafka container. For example using the *Big Data Tools* from IntelliJ connecting to `localhost:29092`
-   * Test that Zookeeper is running on port 22181; e.g. use another IntelliJ Plugin like *zoolytic*
+   * Test access to the Kafka container. For example using the *Big Data Tools* from IntelliJ connecting to `localhost:29092,localhost:39092`
+   * Test that Zookeeper is running on `port 22181` and `port 32181`; e.g. use another IntelliJ Plugin like *zoolytic*
