@@ -21,7 +21,7 @@ public class KafkaDemoApplication {
 	@Bean
 	public NewTopic topic() {
 		return TopicBuilder.name("demoTopic")
-				.partitions(10)
+				.partitions(1)
 				.replicas(1)
 				.build();
 	}
@@ -34,7 +34,7 @@ public class KafkaDemoApplication {
 	@Bean
 	public ApplicationRunner runner(KafkaTemplate<String, String> template) {
 		return args -> {
-			for (int i = 0; i < 10; i++) {
+			for (int i = 0; i < 5; i++) {
 				template.send("demoTopic", "My Kafka Event Nr."+(i+1));
 				TimeUnit.SECONDS.sleep(5);
 			}
