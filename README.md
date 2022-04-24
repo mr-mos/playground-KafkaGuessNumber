@@ -19,7 +19,7 @@ Clients are collaborating to find the number as quick as possible. Communication
 
 ### Hello-World application
 
- * 
+Just run the application without arguments. It publishes five events to the `demoTopic` and a consumer is logging those events into the console.
 
 
 ### Check Kafka topic  (using Kafka tools inside the docker-container)
