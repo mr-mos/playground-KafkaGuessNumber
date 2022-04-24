@@ -25,5 +25,6 @@ Just run the application without arguments. It publishes five events to the `dem
 ### Check Kafka topic  (using Kafka tools inside the docker-container)
 
  * List all topics: ```kafka-topics --bootstrap-server localhost:9092 --list```
+ * Show config of special topics:  ```kafka-topics --bootstrap-server localhost:9092 --describe --topics-with-overrides```
  * Replay / list events of the `demoTopic`:  ```kafka-console-consumer --bootstrap-server localhost:9092 --topic demoTopic --from-beginning```
  * Delete topic (events): ```kafka-topics --bootstrap-server localhost:9092 --delete --topic demoTopic```
