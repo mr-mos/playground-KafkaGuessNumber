@@ -24,16 +24,6 @@ public class KafkaGuessNumberApplication {
 
 
 
-	@Bean
-	public ApplicationRunner runner(KafkaTemplate<String, String> template) {
-		return args -> {
-			for (int i = 0; i < 5; i++) {
-				template.send("demoTopic", "My Kafka Event Nr."+(i+1));
-				log.debug("Sending event to demoTopic Nr. "+(i+1));
-				TimeUnit.SECONDS.sleep(5);
-			}
-		};
-	}
 
 
 }
