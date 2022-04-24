@@ -16,3 +16,14 @@ Clients are collaborating to find the number as quick as possible. Communication
    * Background information regarding Docker and Kafka can be found here: [kafka-docker-setup](https://www.baeldung.com/ops/kafka-docker-setup)
    * Test access to the Kafka container. For example using the *Big Data Tools* from IntelliJ connecting to `localhost:29092`
    * Test that Zookeeper is running on `port 22181`; e.g. use another IntelliJ Plugin like *zoolytic*
+
+### Hello-World application
+
+ * 
+
+
+### Check Kafka topic  (using Kafka tools inside the docker-container)
+
+ * List all topics: ```kafka-topics --bootstrap-server localhost:9092 --list```
+ * Replay / list events of the `demoTopic`:  ```kafka-console-consumer --bootstrap-server localhost:9092 --topic demoTopic --from-beginning```
+ * Delete topic (events): ```kafka-topics --bootstrap-server localhost:9092 --delete --topic demoTopic```

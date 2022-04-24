@@ -1,6 +1,8 @@
 package com.mos.kafka.kafkaguessnumber;
 
 import org.apache.kafka.clients.admin.NewTopic;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -13,6 +15,9 @@ import java.util.concurrent.TimeUnit;
 
 @SpringBootApplication
 public class KafkaDemoApplication {
+
+	private static final Logger log	= LoggerFactory.getLogger(KafkaDemoApplication.class);
+
 
 	public static void main(String[] args) {
 		SpringApplication.run(KafkaDemoApplication.class, args);
@@ -28,7 +33,7 @@ public class KafkaDemoApplication {
 
 	@KafkaListener(id = "demoConsumer", topics = "demoTopic")
 	public void listen(String in) {
-		System.out.println("--------------------> "+in);
+		log.info("--------------------> "+in);
 	}
 
 	@Bean
