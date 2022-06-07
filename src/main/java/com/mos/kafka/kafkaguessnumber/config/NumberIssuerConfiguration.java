@@ -10,9 +10,9 @@ import org.springframework.kafka.config.TopicBuilder;
 
 @Profile("numberIssuer")
 @Configuration
-public class GuessNumberConfiguration {
+public class NumberIssuerConfiguration {
 
-	private static final Logger log	= LoggerFactory.getLogger(GuessNumberConfiguration.class);
+	private static final Logger log	= LoggerFactory.getLogger(NumberIssuerConfiguration.class);
 
 
 	@Bean
