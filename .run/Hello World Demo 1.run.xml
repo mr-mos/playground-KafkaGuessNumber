@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Hello World Demo 1" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
-    <option name="ACTIVE_PROFILES" value="helloWorld" />
+    <option name="ACTIVE_PROFILES" />
     <module name="KafkaGuessNumber" />
     <option name="SPRING_BOOT_MAIN_CLASS" value="com.mos.kafka.kafkaguessnumber.KafkaGuessNumberApplication" />
     <extension name="coverage">

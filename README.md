@@ -12,7 +12,7 @@ Clients are collaborating to find the number as quick as possible. Communication
 
  * Make sure you have **installed Docker**; e.g. install Docker Desktop: https://www.docker.com/products/docker-desktop/
  * **Start the Docker containers** for *Zookeeper* and *Kafka*  by going in the folder `./docker` and starting `docker compose up -d` 
-   * (For redundancy two containers are started for each service (2x Zookeeper + 2x Kafka)) --> comment out per default 
+   * (For redundancy two containers are started for each service (2x Zookeeper + 2x Kafka)) --> commented out per default 
    * Background information regarding Docker and Kafka can be found here: [kafka-docker-setup](https://www.baeldung.com/ops/kafka-docker-setup)
    * Test access to the Kafka container. For example using the *Big Data Tools* from IntelliJ connecting to `localhost:29092`
    * Test that Zookeeper is running on `port 22181`; e.g. use another IntelliJ Plugin like *zoolytic*
@@ -24,7 +24,7 @@ Just run the application without arguments. It publishes five events to the `dem
 
 ### Check Kafka topic  (using Kafka tools inside the docker-container)
 
- * List all topics: ```kafka-topics --bootstrap-server localhost:9092 --list```
- * Show config of special topics:  ```kafka-topics --bootstrap-server localhost:9092 --describe --topics-with-overrides```
- * Replay / list events of the `demoTopic`:  ```kafka-console-consumer --bootstrap-server localhost:9092 --topic demoTopic --from-beginning```
- * Delete topic (events): ```kafka-topics --bootstrap-server localhost:9092 --delete --topic demoTopic```
+ * List all topics: ```kafka-topics --bootstrap-server kafka-1:9092 --list```
+ * Show config of special topics:  ```kafka-topics --bootstrap-server kafka-1:9092 --describe --topics-with-overrides```
+ * Replay / list events of the `demoTopic`:  ```kafka-console-consumer --bootstrap-server kafka-1:9092 --topic demoTopic --from-beginning```
+ * Delete topic (events): ```kafka-topics --bootstrap-server kafka-1:9092 --delete --topic demoTopic```
