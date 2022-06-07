@@ -26,5 +26,6 @@ Just run the application without arguments. It publishes five events to the `dem
 
  * List all topics: ```kafka-topics --bootstrap-server kafka-1:9092 --list```
  * Show config of special topics:  ```kafka-topics --bootstrap-server kafka-1:9092 --describe --topics-with-overrides```
- * Replay / list events of the `demoTopic`:  ```kafka-console-consumer --bootstrap-server kafka-1:9092 --topic demoTopic --from-beginning```
+ * Read/ Replay / list events of the `demoTopic`:  ```kafka-console-consumer --bootstrap-server kafka-1:9092 --topic demoTopic --from-beginning```
  * Delete topic (events): ```kafka-topics --bootstrap-server kafka-1:9092 --delete --topic demoTopic```
+ * Write events to a topic: ```kafka-console-producer --bootstrap-server kafka-1:9092 --topic guessNumberTopic``` 

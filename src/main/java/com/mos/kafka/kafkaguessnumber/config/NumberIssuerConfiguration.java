@@ -1,8 +1,8 @@
 package com.mos.kafka.kafkaguessnumber.config;
 
+import com.mos.kafka.kafkaguessnumber.logic.Issuer;
 import org.apache.kafka.clients.admin.NewTopic;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -12,8 +12,11 @@ import org.springframework.kafka.config.TopicBuilder;
 @Configuration
 public class NumberIssuerConfiguration {
 
-	private static final Logger log	= LoggerFactory.getLogger(NumberIssuerConfiguration.class);
+	private final Issuer issuer;
 
+	public NumberIssuerConfiguration(Issuer issuer) {
+		this.issuer = issuer;
+	}
 
 	@Bean
 	public NewTopic newNumberTopic() {
@@ -25,7 +28,7 @@ public class NumberIssuerConfiguration {
 
 	@Bean
 	public NewTopic guessNumberTopic() {
-		return TopicBuilder.name("guessNumberTopic")               // number
+		return TopicBuilder.name("guessNumberTopic")              // timestamp;number
 				.partitions(1)
 				.replicas(1)
 				.build();
@@ -34,12 +37,17 @@ public class NumberIssuerConfiguration {
 
 	@Bean
 	public NewTopic feedbackNumberTopic() {
-		return TopicBuilder.name("feedbackNumberTopic")            // message:  1.) Line: Timestamp   2.) Line: <guessedNumber>  "<" or ">" or "="
+		return TopicBuilder.name("feedbackNumberTopic")            //  Line: "Matched" or "Inactive" or "<" or ">" or "="
 				.partitions(1)
 				.replicas(1)
 				.build();
 	}
 
-
+	@Bean
+	public ApplicationRunner runner() {
+		return args -> {
+			issuer.publishNewNumberEvent();
+		};
+	}
 
 }
