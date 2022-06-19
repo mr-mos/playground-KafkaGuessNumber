@@ -8,9 +8,12 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.kafka.config.TopicBuilder;
 
+import static com.mos.kafka.kafkaguessnumber.config.GlobalDefs.*;
+
 @Profile("numberIssuer")
 @Configuration
 public class NumberIssuerConfiguration {
+
 
 	private final Issuer issuer;
 
@@ -20,7 +23,7 @@ public class NumberIssuerConfiguration {
 
 	@Bean
 	public NewTopic newNumberTopic() {
-		return TopicBuilder.name("newNumberTopic")               // a timestamp
+		return TopicBuilder.name(TOPIC_NEW_NUMBER)
 				.partitions(1)
 				.replicas(1)
 				.build();
@@ -28,7 +31,7 @@ public class NumberIssuerConfiguration {
 
 	@Bean
 	public NewTopic guessNumberTopic() {
-		return TopicBuilder.name("guessNumberTopic")              // timestamp;number
+		return TopicBuilder.name(TOPIC_GUESS_NUMBER)
 				.partitions(1)
 				.replicas(1)
 				.build();
@@ -37,7 +40,7 @@ public class NumberIssuerConfiguration {
 
 	@Bean
 	public NewTopic feedbackNumberTopic() {
-		return TopicBuilder.name("feedbackNumberTopic")            //  Line: "Matched" or "Inactive" or "<" or ">" or "="
+		return TopicBuilder.name(TOPIC_FEEDBACK_NUMBER)
 				.partitions(1)
 				.replicas(1)
 				.build();

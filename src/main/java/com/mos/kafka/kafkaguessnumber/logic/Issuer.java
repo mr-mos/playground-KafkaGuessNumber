@@ -5,9 +5,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.listener.adapter.ConsumerRecordMetadata;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Component;
 
 import java.util.Random;
+
+import static com.mos.kafka.kafkaguessnumber.config.GlobalDefs.*;
 
 @Component
 public class Issuer {
@@ -36,14 +39,15 @@ public class Issuer {
 
 	// consumers get notified about a new quiz
 	public void publishNewNumberEvent() {
-		kafkaTemplate.send("newNumberTopic", timestamp);
+		kafkaTemplate.send(TOPIC_NEW_NUMBER, timestamp);
 		log.info(String.format("----------------------------------------------->\n  " +
 				"Publishing new number quiz. Timestamp:%s  Number:%d ", timestamp, randomNumber));
 	}
 
 
-	@KafkaListener(id = "theIssuer", topics = "guessNumberTopic")
-	public void listenToGuesses(String timestampPlusGuess, ConsumerRecordMetadata meta) {
+	@KafkaListener(id = "theIssuer", topics = TOPIC_GUESS_NUMBER)
+	@SendTo(TOPIC_FEEDBACK_NUMBER)
+	public String listenToGuesses(String timestampPlusGuess, ConsumerRecordMetadata meta) {
 		log.info(String.format("Got number guess '%s' from '%s' ", timestampPlusGuess, meta.toString()));
 		String[] splits = timestampPlusGuess.split(";");
 		String guessTimestamp = splits[0];
@@ -59,6 +63,7 @@ public class Issuer {
 			answer = randomNumber.compareTo(guessNumber) > 0 ? ">" : "<";
 		}
 		log.info("Answer: " + answer);
+		return answer;
 	}
 
 

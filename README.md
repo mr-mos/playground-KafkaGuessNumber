@@ -28,4 +28,16 @@ Just run the application without arguments. It publishes five events to the `dem
  * Show config of special topics:  ```kafka-topics --bootstrap-server kafka-1:9092 --describe --topics-with-overrides```
  * Read/ Replay / list events of the `demoTopic`:  ```kafka-console-consumer --bootstrap-server kafka-1:9092 --topic demoTopic --from-beginning```
  * Delete topic (events): ```kafka-topics --bootstrap-server kafka-1:9092 --delete --topic demoTopic```
- * Write events to a topic: ```kafka-console-producer --bootstrap-server kafka-1:9092 --topic guessNumberTopic``` 
+ * Write events to a topic: ```kafka-console-producer --bootstrap-server kafka-1:9092 --topic guessNumberTopic```
+ * Read events to a topic: ```kafka-console-consumer --bootstrap-server kafka-1:9092 --topic feedbackNumberTopic```
+
+
+### Run GuessNumber application
+
+
+ 1. Run one _NumberIssuer-App_ by starting with the profile: ```numberIssuer```
+
+
+### Kafka Topics used for GuessNumber
+
+Check class [GlobalDefs](src/main/java/com/mos/kafka/kafkaguessnumber/config/GlobalDefs.java)
