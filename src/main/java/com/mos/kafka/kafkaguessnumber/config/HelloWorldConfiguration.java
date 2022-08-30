@@ -32,7 +32,7 @@ public class HelloWorldConfiguration {
 
 	@KafkaListener(id = "#{T(java.util.UUID).randomUUID().toString()}", topics = "demoTopic")
 	public void listen(String in) {
-		log.info("--------------------> "+in);
+		log.info("------- Received -------------> "+in);
 	}
 
 
