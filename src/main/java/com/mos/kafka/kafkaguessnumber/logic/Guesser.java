@@ -46,7 +46,7 @@ public class Guesser {
 
 	private void thinkingTime() {
 		try {
-			Thread.sleep(3000);    // thinking time ;)
+			Thread.sleep(1000);    // thinking time ;)
 		} catch (InterruptedException e) {
 			log.error("Can't sleep. To much coffein?", e);
 		}

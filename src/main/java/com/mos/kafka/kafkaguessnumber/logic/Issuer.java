@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
 import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.kafka.core.KafkaAdmin;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.listener.adapter.ConsumerRecordMetadata;
 import org.springframework.messaging.handler.annotation.SendTo;
@@ -22,12 +23,13 @@ public class Issuer {
 	private final KafkaTemplate<String, String> kafkaTemplate;
 
 	private String timestamp;
+
 	private Integer randomNumber;
 
 	private Random rand = new Random();
 
 
-	public Issuer(KafkaTemplate<String, String> kafkaTemplate) {
+	public Issuer(KafkaTemplate<String, String> kafkaTemplate, KafkaAdmin kafkaAdmin) {
 		this.kafkaTemplate = kafkaTemplate;
 		generateNewNumber();
 	}

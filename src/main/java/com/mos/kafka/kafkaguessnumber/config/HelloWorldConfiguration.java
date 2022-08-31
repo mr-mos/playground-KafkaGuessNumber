@@ -25,7 +25,7 @@ public class HelloWorldConfiguration {
 		return TopicBuilder.name("demoTopic")
 				.partitions(1)
 				.replicas(1)
-				.config(TopicConfig.RETENTION_MS_CONFIG, "1000")
+				.config(TopicConfig.RETENTION_MS_CONFIG, "1500")
 				.config(TopicConfig.SEGMENT_MS_CONFIG, "1000")
 				.build();
 	}
