@@ -20,4 +20,14 @@ public class GlobalDefs {
 	 */
 	static public final String TOPIC_FEEDBACK_NUMBER = "feedbackNumberTopic";
 
+
+	static public final String NOT_ACTIVE = "Inactive";
+
+	static public final String MATCHED = "Matched";
+
+	static public final String GREATER = ">";     // wanted number is greater
+
+	static public final String SMALLER = "<";     // wanted number is smaller
+
+
 }

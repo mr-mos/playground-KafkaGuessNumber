@@ -29,7 +29,7 @@ Just run the application without arguments. It publishes five events to the `dem
  * Read/ Replay / list events of the `demoTopic`:  ```kafka-console-consumer --bootstrap-server kafka-1:9092 --topic demoTopic --from-beginning```
  * Delete topic (events): ```kafka-topics --bootstrap-server kafka-1:9092 --delete --topic demoTopic```
  * Write events to a topic: ```kafka-console-producer --bootstrap-server kafka-1:9092 --topic guessNumberTopic```
- * Read events to a topic: ```kafka-console-consumer --bootstrap-server kafka-1:9092 --topic feedbackNumberTopic```
+ * Read events from a topic: ```kafka-console-consumer --bootstrap-server kafka-1:9092 --topic feedbackNumberTopic```
 
 
 ### Run GuessNumber application
