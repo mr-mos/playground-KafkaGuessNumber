@@ -1,6 +1,7 @@
 package com.mos.kafka.kafkaguessnumber.config;
 
 import org.apache.kafka.clients.admin.NewTopic;
+import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.config.TopicConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,12 +38,12 @@ public class HelloWorldConfiguration {
 
 
 	@Bean
-	public ApplicationRunner runner(KafkaTemplate<String, String> template) {
+	public ApplicationRunner runner(KafkaTemplate<String, String> template)  {
 		return args -> {
 			for (int i = 0; i < 5; i++) {
+				TimeUnit.SECONDS.sleep(5);
 				template.send("demoTopic", "My Kafka Event Nr."+(i+1));
 				log.debug("Sending event to demoTopic Nr. "+(i+1));
-				TimeUnit.SECONDS.sleep(5);
 			}
 		};
 	}

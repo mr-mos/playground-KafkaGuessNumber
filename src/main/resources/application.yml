@@ -4,4 +4,4 @@ spring:
   kafka:
     bootstrap-servers: localhost:29092
     consumer:
-      auto-offset-reset: earliest
+      auto-offset-reset: latest          # should new consumer read from the latest (default) or from the beginning ?
