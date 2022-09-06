@@ -27,8 +27,8 @@ public class IssuerStartConfiguration {
 	@Bean
 	public ApplicationRunner runner() {
 		return args -> {
-			log.info("***** Waiting 10 seconds for consumers and then start the game.... ****");
-			TimeUnit.SECONDS.sleep(10);
+			log.info("***** Waiting 2 seconds for consumers and then start the game.... ****");
+			TimeUnit.SECONDS.sleep(2);
 			issuer.publishNewNumberEvent();
 		};
 	}
