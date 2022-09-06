@@ -54,8 +54,8 @@ public class Issuer {
 	@SendTo      // goes to TOPIC_FEEDBACK_NUMBER because of the ReplyingKafkaTemplate configuration
 	public String listenToGuesses(ConsumerRecord<String, String> record, ConsumerRecordMetadata meta) {
 		String timestampPlusGuess = record.value();
-		log.info(String.format("<--------received----------\n  " +
-				"Got number guess '%s' from '%s'.  ", timestampPlusGuess, meta.toString()));
+		log.info(String.format("<--------received:%s----------\n  " +
+				"Got number guess '%s' from '%s'.  ", record.key(), timestampPlusGuess, meta.toString()));
 		String[] splits = timestampPlusGuess.split(";");
 		String guessTimestamp = splits[0];
 		Integer guessNumber = Integer.valueOf(splits[1]);
@@ -69,9 +69,9 @@ public class Issuer {
 		} else {
 			answer = randomNumber.compareTo(guessNumber) > 0 ? GREATER : SMALLER;
 		}
-		log.info(String.format("--------send-------------->\n  " +
-						" Answering guess %d regarding wanted number (%d): %s ",
-				guessNumber, randomNumber, answer));
+		log.info(String.format("--------send:%s-------------->\n  " +
+						"Answering guess %d regarding wanted number (%d): %s ",
+				record.key(), guessNumber, randomNumber, answer));
 		return answer;
 //		return MessageBuilder.withPayload(answer)
 //				.setHeader(KafkaHeaders.CORRELATION_ID, record.headers().lastHeader(KafkaHeaders.CORRELATION_ID).value())

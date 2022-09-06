@@ -47,6 +47,7 @@ public class Guesser {
 
 	public Guesser(ReplyingKafkaTemplate<String, String, String> replyingKafkaTemplate) {
 		this.replyingKafkaTemplate = replyingKafkaTemplate;
+		log.info("\n\n*************************************\n Guesser: " + guesserId + " running\n*************************************\n");
 	}
 
 
@@ -76,7 +77,7 @@ public class Guesser {
 		log.info(String.format("--------sending---------->\n  " +
 				"New guess with sending number: %s", currentGuess));
 		String payload = currentChallenge+";"+currentGuess;
-		ProducerRecord<String, String> record = new ProducerRecord<>(TOPIC_GUESS_NUMBER, payload);
+		ProducerRecord<String, String> record = new ProducerRecord<>(TOPIC_GUESS_NUMBER, guesserId, payload);
 		RequestReplyFuture<String, String, String> future =	replyingKafkaTemplate.sendAndReceive(record);
 		try {
 			ConsumerRecord<String, String> response = future.get(10, TimeUnit.SECONDS);
