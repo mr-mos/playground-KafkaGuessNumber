@@ -35,9 +35,9 @@ public class Guesser {
 
 	private volatile Integer currentGuess;
 
-	private volatile Integer lastSmallerGuess = MAX_NUMBER;
+	private volatile Integer lastSmallerGuess;
 
-	private volatile Integer lastGreaterGuess = 0;
+	private volatile Integer lastGreaterGuess;
 
 	private final ExecutorService executorService = Executors.newFixedThreadPool(5);
 
@@ -52,13 +52,13 @@ public class Guesser {
 
 
 	@KafkaListener(id = "#{T(com.mos.kafka.kafkaguessnumber.logic.Guesser).guesserId}", topics = TOPIC_NEW_NUMBER)
-	public void listenToNewNumberChallenge(String challengeId, @Header(KafkaHeaders.CONSUMER) KafkaConsumer<?,?> kafkaConsumer) {
+	public void listenToNewNumberChallenge(String challengeId, @Header(KafkaHeaders.CONSUMER) KafkaConsumer<?, ?> kafkaConsumer) {
 		log.info(String.format("<--------received----------\n  " +
 				"Consumer %s got number challenge with id: %s", guesserId, challengeId));
 		currentChallenge = challengeId;
 		currentGuess = null;
-		lastSmallerGuess = null;
-		lastGreaterGuess = null;
+		lastSmallerGuess = 0;
+		lastGreaterGuess = MAX_NUMBER;
 		executorService.submit(() -> startGuessing(challengeId));
 	}
 
@@ -73,38 +73,55 @@ public class Guesser {
 
 
 	private void sendNextGuess(String lastHint) {
-		currentGuess = calcNextGuess(lastHint);
+		calcNextGuess(lastHint);
 		log.info(String.format("--------sending---------->\n  " +
 				"New guess with sending number: %s", currentGuess));
-		String payload = currentChallenge+";"+currentGuess;
+		String payload = currentChallenge + ";" + currentGuess;
 		ProducerRecord<String, String> record = new ProducerRecord<>(TOPIC_GUESS_NUMBER, guesserId, payload);
-		RequestReplyFuture<String, String, String> future =	replyingKafkaTemplate.sendAndReceive(record);
+		RequestReplyFuture<String, String, String> future = replyingKafkaTemplate.sendAndReceive(record);
 		try {
 			ConsumerRecord<String, String> response = future.get(10, TimeUnit.SECONDS);
+			String answer = response.value();
 			log.info(String.format("<--------received----------\n  " +
-					"Answer from Issuer regarding number %s: %s", currentGuess, response.value()));
-			// check the answer
+					"Answer from Issuer regarding number %s: %s", currentGuess, answer));
+			processAnswer(answer);
+
 		} catch (Exception e) {
 			log.error("Did not get feedback for guess " + currentGuess, e);
 		}
 	}
 
 
-	private Integer calcNextGuess(String lastHint) {
+	private void calcNextGuess(String lastHint) {
+		Integer newNumber;
 		if (lastHint == null || currentGuess == null) {
-			return rand.nextInt(MAX_NUMBER-(MAX_NUMBER/10) + (MAX_NUMBER/10));         // first try: randomly to give guesser different start points
-		}
-		if (lastHint.equals(SMALLER)) {
-			return (currentGuess - lastGreaterGuess) / 2;
+			newNumber = rand.nextInt(MAX_NUMBER - (MAX_NUMBER / 10) + (MAX_NUMBER / 10));         // first try: randomly to give guesser different start points
+		} else if (lastHint.equals(SMALLER)) {
+			newNumber = currentGuess - Math.max(1, (currentGuess - lastSmallerGuess) / 2);
+			lastGreaterGuess = currentGuess;
 		} else {
-			return (lastSmallerGuess - currentGuess) / 2;
+			newNumber = currentGuess + Math.max(1, ((int) Math.ceil((lastGreaterGuess.doubleValue() - currentGuess) / 2)));
+			lastSmallerGuess = currentGuess;
+		}
+		currentGuess = newNumber;
+	}
+
+
+	private void processAnswer(String answer) {
+		if (answer.equals(MATCHED)) {
+			log.info("I'm the WINNER !!!!!!!!!!!  :))))");
+		} else if (answer.equals(NOT_ACTIVE)) {
+			log.info("The game is over. Someone else won. :(");
+		} else {
+			thinkingTime();
+			sendNextGuess(answer);
 		}
 	}
 
 
 	private void thinkingTime() {
 		try {
-			TimeUnit.SECONDS.sleep(1);    // thinking time ;)
+			TimeUnit.SECONDS.sleep((System.currentTimeMillis() % 5) + 1);    // thinking time ;)
 		} catch (InterruptedException e) {
 			log.error("Can't sleep. To much coffein?", e);
 		}
