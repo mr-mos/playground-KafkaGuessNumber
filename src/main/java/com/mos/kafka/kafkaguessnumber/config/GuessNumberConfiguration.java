@@ -38,8 +38,8 @@ public class GuessNumberConfiguration {
 		return TopicBuilder.name(TOPIC_NEW_NUMBER)
 				.partitions(1)
 				.replicas(1)
-				.config(TopicConfig.RETENTION_MS_CONFIG, "1500")
-				.config(TopicConfig.SEGMENT_MS_CONFIG, "1000")
+				.config(TopicConfig.RETENTION_MS_CONFIG, "15000")
+				.config(TopicConfig.SEGMENT_MS_CONFIG, "10000")
 				.build();
 	}
 
@@ -48,8 +48,8 @@ public class GuessNumberConfiguration {
 		return TopicBuilder.name(TOPIC_GUESS_NUMBER)
 				.partitions(1)
 				.replicas(1)
-				.config(TopicConfig.RETENTION_MS_CONFIG, "1500")
-				.config(TopicConfig.SEGMENT_MS_CONFIG, "1000")
+				.config(TopicConfig.RETENTION_MS_CONFIG, "15000")
+				.config(TopicConfig.SEGMENT_MS_CONFIG, "10000")
 				.build();
 	}
 
@@ -59,8 +59,8 @@ public class GuessNumberConfiguration {
 		return TopicBuilder.name(TOPIC_FEEDBACK_NUMBER)
 				.partitions(1)
 				.replicas(1)
-				.config(TopicConfig.RETENTION_MS_CONFIG, "1500")
-				.config(TopicConfig.SEGMENT_MS_CONFIG, "1000")
+				.config(TopicConfig.RETENTION_MS_CONFIG, "15000")
+				.config(TopicConfig.SEGMENT_MS_CONFIG, "10000")
 				.build();
 	}
 

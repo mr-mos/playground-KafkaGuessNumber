@@ -21,6 +21,8 @@ public class GlobalDefs {
 	static public final String TOPIC_FEEDBACK_NUMBER = "feedbackNumberTopic";
 
 
+	static public final Integer MAX_NUMBER= 1000;
+
 	static public final String NOT_ACTIVE = "Inactive";
 
 	static public final String MATCHED = "Matched";

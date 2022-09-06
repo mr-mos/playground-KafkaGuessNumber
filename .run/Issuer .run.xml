@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Number Issuer " type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+  <configuration default="false" name="Issuer " type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
     <option name="ACTIVE_PROFILES" value="numberIssuer" />
     <module name="KafkaGuessNumber" />
     <option name="SPRING_BOOT_MAIN_CLASS" value="com.mos.kafka.kafkaguessnumber.KafkaGuessNumberApplication" />

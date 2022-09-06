@@ -1,5 +1,6 @@
 package com.mos.kafka.kafkaguessnumber.logic;
 
+import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
@@ -37,7 +38,7 @@ public class Issuer {
 
 	public void generateNewNumber() {
 		timestamp = System.currentTimeMillis() + "";
-		randomNumber = rand.nextInt(100) + 1;            // number between 1 and 100
+		randomNumber = rand.nextInt(MAX_NUMBER) + 1;            // number between 1 and X
 	}
 
 
@@ -50,8 +51,9 @@ public class Issuer {
 
 
 	@KafkaListener(id = "theIssuer", topics = TOPIC_GUESS_NUMBER)
-	@SendTo(TOPIC_FEEDBACK_NUMBER)
-	public String listenToGuesses(String timestampPlusGuess, ConsumerRecordMetadata meta) {
+	@SendTo      // goes to TOPIC_FEEDBACK_NUMBER because of the ReplyingKafkaTemplate configuration
+	public String listenToGuesses(ConsumerRecord<String, String> record, ConsumerRecordMetadata meta) {
+		String timestampPlusGuess = record.value();
 		log.info(String.format("<--------received----------\n  " +
 				"Got number guess '%s' from '%s'.  ", timestampPlusGuess, meta.toString()));
 		String[] splits = timestampPlusGuess.split(";");
@@ -71,6 +73,10 @@ public class Issuer {
 						" Answering guess %d regarding wanted number (%d): %s ",
 				guessNumber, randomNumber, answer));
 		return answer;
+//		return MessageBuilder.withPayload(answer)
+//				.setHeader(KafkaHeaders.CORRELATION_ID, record.headers().lastHeader(KafkaHeaders.CORRELATION_ID).value())
+//				.setHeader(KafkaHeaders.TOPIC, record.headers().lastHeader(KafkaHeaders.REPLY_TOPIC).value())
+//				.build();
 	}
 
 
