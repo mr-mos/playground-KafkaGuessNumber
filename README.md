@@ -6,7 +6,7 @@ This is a small **Java Spring Boot** application **demonstration how to use Kafk
 The Kafka broker is set up for local development by using corresponding **docker containers**.
 
 This application implements the **"Guess my number" game**. 
-Clients are collaborating to find the number as quick as possible. Communication is done via Kafka events/topics.
+Clients are in competition to find the number as quick as possible. Communication is done via Kafka events/topics.
 
 ### Setup Docker/Kafka
 
@@ -22,7 +22,7 @@ Clients are collaborating to find the number as quick as possible. Communication
 Just run the application without arguments. It publishes five events to the `demoTopic` and a consumer is logging those events into the console.
 
 
-### Check Kafka topic  (using Kafka tools inside the docker-container)
+### Optional: Inside Kafka - Check topics  (using Kafka tools inside the docker-container)
 
  * List all topics: ```kafka-topics --bootstrap-server kafka-1:9092 --list```
  * Delete a topic: ```kafka-topics --bootstrap-server kafka-1:9092 --delete --topic name```
@@ -33,12 +33,33 @@ Just run the application without arguments. It publishes five events to the `dem
  * Read events from a topic: ```kafka-console-consumer --bootstrap-server kafka-1:9092 --topic feedbackNumberTopic```
 
 
-### Run GuessNumber application
+## Run GuessNumber application
 
 
- 1. Run one _NumberIssuer-App_ by starting with the profile: ```numberIssuer```
+ 1. Run one _NumberIssuer-App_. There should be just one instance. 
+    It is responsible for publishing a random number and evaluating the answers of the _Guessers_. Class
+    ```com.mos.kafka.kafkaguessnumber.KafkaGuessNumberApplication``` in profile ```numberIssuer```
+    
+2.  Run as many _NumberGuesser_ instances as you like. Each of them is guessing the number. 
+    The feedback of the _Issuer_ would be: `<`, `>`, `Matched` or `Inactive`. 
+    Start the same main class `KafkaGuessNumberApplication` with the profile `numberGuesser`
+
+The _Issuer_ and _Guesser_ are communication via Kafka topics (see also next section). 
+Notice the logs that show you what's going on and which Guesser instance is winning a challenge. 
+
+__Guesser log:__
+![](pic_log_guesser.png)
+__Issuer log:__
+![](pic_log_issuer.png)
 
 
-### Kafka Topics used for GuessNumber
 
-Check class [GlobalDefs](src/main/java/com/mos/kafka/kafkaguessnumber/config/GlobalDefs.java)
+### How it works
+
+The _Issuer_ and _Guessers_ are communicating by using three different topics.
+The following diagramm summarizes the architecture:
+
+![](pic_kafka_design.jpg)
+
+
+Check also class [GlobalDefs](src/main/java/com/mos/kafka/kafkaguessnumber/config/GlobalDefs.java) for global definitions.
